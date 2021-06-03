@@ -114,6 +114,15 @@
             <p textInfo="设备定位全景图" @click="getText()">设备定位全景图</p>
           </router-link>
         </div>
+        <div
+          :class="
+            btnInfo == '燃气瓶压力探测' ? 'infoBtn infoBtnClick' : 'infoBtn'
+          "
+        >
+          <router-link :to="{ name: 'GasBottlePressureDetection' }">
+            <p textInfo="燃气瓶压力探测" @click="getText()">燃气瓶压力探测</p>
+          </router-link>
+        </div>
       </div>
     </div>
     <div class="title2"></div>
@@ -219,6 +228,7 @@ export default {
     switch (this.$route.path) {
       case "/FireInternetOfThings":
         this.DeviceProjectNewFun("3");
+        this.pagetype = "2";
         this.echart();
         break;
       case "/FireInternetOfThings/electricalFire":
@@ -276,6 +286,11 @@ export default {
         this.pagetype = "12";
         this.DeviceProjectNewFun("3");
         break;
+      case "/FireInternetOfThings/GasBottlePressureDetection":
+        this.btnInfo = "燃气瓶压力探测";
+        this.pagetype = "42";
+        this.DeviceProjectNewFun("3");
+        break;
     }
 
     this.init();
@@ -292,6 +307,7 @@ export default {
       switch (this.btnInfo) {
         case "隐患整改进度":
           this.DeviceProjectNewFun("3");
+          this.pagetype = "2";
           break;
         case "电气火灾隐患":
           this.DeviceProjectNewFun("3");
@@ -348,6 +364,11 @@ export default {
           this.DeviceProjectNewFun("3");
           // this.mass.setMap(null);
           this.pagetype = "2";
+          break;
+        case "燃气瓶压力探测":
+          this.DeviceProjectNewFun("42");
+          // this.mass.setMap(null);
+          this.pagetype = "42";
           break;
       }
     },

@@ -51,7 +51,7 @@
                 class="olList"
                 v-for="(item, index) in SElec_DetailElecDevice_List_Copy"
                 :key="index"
-                @click="see(item.BH, item.text)"
+                @click="see(item.BH, item.text, item.productNumber)"
               >
                 <li v-if="item.text != null || item.text != undefined">
                   <span v-if="item.value != null || item.value != undefined"
@@ -141,7 +141,7 @@ export default {
       getDeviceByDevIdList: "",
       shengyu_loudian: "",
       ElecDataList_typeName: "",
-      currentPage4: 4,
+      currentPage4: 1,
       tableData: [],
       getHistoryFault: "",
     };
@@ -166,13 +166,13 @@ export default {
   },
 
   methods: {
-    see(data, address) {
+    see(data, address, productNumber) {
       //是否为地址搜索
       if (address == undefined) {
         this.$refs.publicPopUps.initOff();
         this.$refs.publicPopUps.echart_wapper(data);
       } else {
-        this.$refs.publicPopUps.see(data);
+        this.$refs.publicPopUps.see(data, productNumber);
       }
       // console.log(address, 98798789798);
     },
@@ -197,6 +197,7 @@ export default {
           this.SElec_DetailElecDevice_List_Copy = res.data;
         });
       } else {
+        console.log(this.listData, 77777777);
         for (let i = 0; i < this.listData.length; i++) {
           if (this.listData[i].address.indexOf(this.formInline.user) >= 0) {
             // console.log(data[i].address, 99999)

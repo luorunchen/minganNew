@@ -18,9 +18,7 @@
       <el-form-item>
         <el-button type="primary" @click="onSubmit">查询</el-button>
         <!-- <el-button type="primary" @click="onSubmit">新增</el-button> -->
-        <el-button type="primary" @click="dialogVisible = true"
-          >新增
-        </el-button>
+        <el-button type="primary" @click="addNew">新增 </el-button>
       </el-form-item>
     </el-form>
     <div class="tabs">
@@ -54,10 +52,7 @@
         <el-table-column label="操作">
           <template slot-scope="scope">
             <div class="caozuo">
-              <span
-                @click="(dialogVisible_bianji = true), childMethod(scope.row)"
-                >编辑</span
-              >
+              <span @click="childMethod(scope.row)">编辑</span>
               <!-- <span>禁用</span>
               <span>删除</span> -->
             </div>
@@ -244,6 +239,20 @@ export default {
     };
   },
   methods: {
+    addNew() {
+      if (
+        this.utils.powerId == 1000 ||
+        this.utils.rid.indexOf("10001003") != -1
+      ) {
+        this.dialogVisible = true;
+      } else {
+        return this.$message({
+          showClose: true,
+          message: "暂无权限，请向上级申请",
+          type: "error",
+        });
+      }
+    },
     onSubmit() {
       this.action(1, 10);
     },
@@ -305,13 +314,25 @@ export default {
       );
     },
     childMethod(data) {
-      // console.log(data);
-      this.ruleForm.name = data.userName;
-      this.ruleForm.gudingphone = data.company_phone;
-      this.ruleForm.address = data.address;
-      this.ruleForm.danwei = data.company;
-      this.ruleForm.mobile = data.mobile;
-      this.ruleForm.phone = data.phone;
+      if (
+        this.utils.powerId == 1000 ||
+        this.utils.rid.indexOf("10001002") != -1
+      ) {
+        this.dialogVisible_bianji = true;
+        // console.log(data);
+        this.ruleForm.name = data.userName;
+        this.ruleForm.gudingphone = data.company_phone;
+        this.ruleForm.address = data.address;
+        this.ruleForm.danwei = data.company;
+        this.ruleForm.mobile = data.mobile;
+        this.ruleForm.phone = data.phone;
+      } else {
+        return this.$message({
+          showClose: true,
+          message: "暂无权限，请向上级申请",
+          type: "error",
+        });
+      }
     },
     // 编辑用户弹窗
     edit() {

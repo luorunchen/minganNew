@@ -3,6 +3,7 @@
     <audio src="./assets/6709.mp3" id="audio" loop></audio>
     <div class="weiyi">
       <el-dialog
+        :close-on-click-modal="false"
         :before-close="handleClose"
         title="报警信息"
         :visible.sync="dialogVisible"
@@ -33,7 +34,7 @@ export default {
   data() {
     return {
       dialogVisible: false,
-
+      username: "",
       arlme: { name: "", type: "", address: "", imei: "" },
     };
   },
@@ -41,14 +42,10 @@ export default {
     Home,
   },
   watch: {
-    // listData(val) {
-    //   console.log(val, 654654654);
-    //   if (val == "关") {
-    //     this.audo.pause();
-    //   } else {
-    //     this.audo.play();
-    //   }
-    // },
+    username(val) {
+      this.goEasyFun();
+      // console.log(val, 9999999999);
+    },
     dialogVisible(val) {
       // console.log(val, "playState");
       // console.log(this.listData, "playState");
@@ -75,63 +72,69 @@ export default {
 
       done();
     },
+    goEasyFun() {
+      let goEasy = GoEasy.getInstance({
+        host: "hangzhou.goeasy.io", //应用所在的区域地址: 【hangzhou.goeasy.io |singapore.goeasy.io】
+        appkey: "BC-e7642099b1ac4eedbabd867f4eff1330", //替换为您的应用appkey
+      });
+
+      goEasy.connect({
+        onSuccess: function () {
+          //连接成功
+          console.log("GoEasy connect successfully."); //连接成功
+        },
+        onFailed: function (error) {
+          //连接失败
+          console.log(
+            "Failed to connect GoEasy, code:" +
+              error.code +
+              ",error:" +
+              error.content
+          );
+        },
+        onProgress: function (attempts) {
+          //连接或自动重连中
+          console.log("GoEasy is connecting", attempts);
+        },
+      });
+      const _that = this;
+      goEasy.subscribe({
+        channel: this.utils.userName, //替换为您自己的channel
+
+        onMessage: function (message) {
+          const res = message.content;
+          const arr = res.split(",");
+          console.log(res);
+          _that.arlme.name = arr[2];
+          _that.arlme.imei = arr[0];
+          _that.arlme.type = arr[4];
+          _that.arlme.address = arr[3];
+          _that.dialogVisible = true;
+        },
+        onSuccess: function (message) {
+          console.log("Channel订阅成功。");
+          // this.dialogVisible = true;
+        },
+        onFailed: function (error) {
+          console.log(
+            "Channel订阅失败, 错误编码：" +
+              error.code +
+              " 错误信息：" +
+              error.content
+          );
+        },
+      });
+    },
   },
   mounted() {
     // setInterval(() => {
     //   this.dialogVisible = true;
     // }, 5000);
-
-    let goEasy = GoEasy.getInstance({
-      host: "hangzhou.goeasy.io", //应用所在的区域地址: 【hangzhou.goeasy.io |singapore.goeasy.io】
-      appkey: "BC-e7642099b1ac4eedbabd867f4eff1330", //替换为您的应用appkey
-    });
-
-    goEasy.connect({
-      onSuccess: function () {
-        //连接成功
-        console.log("GoEasy connect successfully."); //连接成功
-      },
-      onFailed: function (error) {
-        //连接失败
-        console.log(
-          "Failed to connect GoEasy, code:" +
-            error.code +
-            ",error:" +
-            error.content
-        );
-      },
-      onProgress: function (attempts) {
-        //连接或自动重连中
-        console.log("GoEasy is connecting", attempts);
-      },
-    });
-    const _that = this;
-    goEasy.subscribe({
-      channel: this.utils.userName, //替换为您自己的channel
-
-      onMessage: function (message) {
-        const res = message.content;
-        const arr = res.split(",");
-        console.log(res);
-        _that.arlme.name = arr[2];
-        _that.arlme.imei = arr[0];
-        _that.arlme.type = arr[4];
-        _that.arlme.address = arr[3];
-        _that.dialogVisible = true;
-      },
-      onSuccess: function (message) {
-        console.log("Channel订阅成功。");
-        // this.dialogVisible = true;
-      },
-      onFailed: function (error) {
-        console.log(
-          "Channel订阅失败, 错误编码：" +
-            error.code +
-            " 错误信息：" +
-            error.content
-        );
-      },
-    });
+    this.goEasyFun();
+  },
+  updated() {
+    console.log(111111);
+    this.username = this.utils.userName;
   },
 };
 </script>

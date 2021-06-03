@@ -1,5 +1,5 @@
 <template>
-  <div id="huozaibaojing">
+  <div id="xiaofangshui">
     <div class="leftWapper">
       <div class="left_one" ref="leftOne">
         <p>今日报警项目</p>
@@ -8,23 +8,32 @@
             <li>{{ item }}</li>
           </ul>
         </div>
-        <div class="scroll_wapper">
-          <ul
-            class="ulList"
-            v-for="(item, index) in DeviceAlarmList"
-            :key="index"
-          >
-            <li @click="callPolice(item.pid)">
-              <span>{{ item.typeName }}</span
-              ><span>共{{ item.value }}条未处理></span>
-            </li>
-          </ul>
-        </div>
+
+        <ul
+          class="ulList"
+          v-for="(item, index) in DeviceAlarmList"
+          :key="index"
+        >
+          <li @click="callPolice(item.pid)">
+            <span>{{ item.typeName }}</span
+            ><span>共{{ item.value }}条未处理></span>
+          </li>
+        </ul>
       </div>
       <div class="left_two">
-        <p>接入烟感设备</p>
+        <p>燃气瓶压力探测器</p>
+        <!-- <div class="title">
+          <ul>
+            <li>2</li>
+            <li>2</li>
+            <li>2</li>
+            <li>2</li>
+            <li>2</li>
+            <li>2</li>
+          </ul>
+        </div> -->
 
-        <Translate />
+        <Translate @click="callPolice()" />
       </div>
     </div>
     <SearchTranslate
@@ -44,8 +53,7 @@ export default {
       SElec_DetailElecDevice_List: "",
       baojingNum: "",
       DeviceAlarmList: "",
-      pagetype: "2",
-      // DeviceNumList: "",
+      pagetype: 42,
     };
   },
   mounted() {
@@ -59,7 +67,7 @@ export default {
     },
     DeviceAlarm() {
       const region = sessionStorage.getItem("region");
-      DeviceAlarm(this.utils.userName, "3", region).then((res) => {
+      DeviceAlarm(this.utils.userName, "42", region).then((res) => {
         this.DeviceAlarmList = res.data;
         let num = 0;
         // console.log(res.data, 99);
@@ -87,7 +95,12 @@ export default {
 };
 </script>
 <style lang='less' scoped>
-#huozaibaojing {
+#xiaofangshui {
+  // /deep/.el-input__inner {
+  //   background: #021019;
+  //   color: #fff;
+  //   border: 1px solid #3094d5;
+  // }
   ul {
     list-style-type: none;
   }
@@ -146,16 +159,6 @@ export default {
           justify-content: space-between;
         }
       }
-    }
-    .scroll_wapper {
-      margin-top: 15px;
-      // position: relative;
-      overflow-y: auto;
-      height: 300px; //高度根据需求自行设定
-      overflow-x: hidden;
-    }
-    .scroll_wapper ::-webkit-scrollbar {
-      display: none; /*隐藏滚动条*/
     }
     .left_two {
       background-image: url("../../../assets/images/juxing7.png");

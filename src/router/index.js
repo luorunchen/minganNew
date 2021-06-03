@@ -111,6 +111,11 @@ const routes = [
         name: 'Panorama',
         component: () => import('@/components/FireInternetOfThings/shebeidingwei'),
       },
+      {
+        path: 'GasBottlePressureDetection',
+        name: 'GasBottlePressureDetection',
+        component: () => import('@/components/FireInternetOfThings/GasBottlePressureDetection'),
+      },
 
     ],
 
@@ -123,7 +128,7 @@ const routes = [
 const router = new VueRouter({
   routes,
   // mode: 'history',
-  base: '/lingdong1',
+  base: '/MingAn1',
 })
 router.beforeEach((to, from, next) => {
   let token = sessionStorage.getItem("userName");

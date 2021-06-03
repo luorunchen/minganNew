@@ -1,9 +1,13 @@
 
 let userName = sessionStorage.getItem('userName')
+let powerId = window.sessionStorage.getItem('new_role')
+let rid = window.sessionStorage.getItem('power')
 // console.log()
 class PublicMethods {
   constructor() {
     this.userName = userName
+    this.powerId = powerId
+    this.rid = rid
     // this.name = '公用变量'
   }
   // verificationPhon(phone) {

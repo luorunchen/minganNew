@@ -40,12 +40,20 @@
         >
           <p>单位管理</p>
         </div>
-        <!-- <div
-          :class="btnInfo == '系统管理' ? 'infoBtn infoBtnClick' : 'infoBtn'"
-          @click="getInfo('系统管理')"
+        <div
+          :class="btnInfo == '派工单' ? 'infoBtn infoBtnClick' : 'infoBtn'"
+          @click="getInfo('派工单')"
         >
-          <router-link to="/SystemSettings"> <p>系统管理</p></router-link>
-        </div> -->
+          <p>派工单</p>
+        </div>
+        <div
+          :class="
+            btnInfo == '设备安装确认' ? 'infoBtn infoBtnClick' : 'infoBtn'
+          "
+          @click="getInfo('设备安装确认')"
+        >
+          <p>设备安装确认</p>
+        </div>
         <!-- <div
           :class="btnInfo == '系统设置' ? 'infoBtn infoBtnClick' : 'infoBtn'"
           @click="getInfo('系统设置')"
@@ -149,6 +157,12 @@
       <template v-if="this.btnInfo == '漏电预警'">
         <LouDianYuJing />
       </template>
+      <template v-if="this.btnInfo == '派工单'">
+        <PaiGongDan />
+      </template>
+      <template v-if="this.btnInfo == '设备安装确认'">
+        <SheBeiAnZhuangQueRen />
+      </template>
     </div>
   </div>
 </template>
@@ -167,6 +181,8 @@ import YanWuHuoZaiYuJing from "./YanWuHuoZaiYuJing";
 import DuanLvYuJing from "./DuanLvYuJing";
 import LouDianYuJing from "./LouDianYuJing";
 import DianQiHuoZhai from "./DianQiHuoZhai";
+import PaiGongDan from "./PaiGongDan";
+import SheBeiAnZhuangQueRen from "./SheBeiAnZhuangQueRen";
 export default {
   data() {
     return {
@@ -219,6 +235,8 @@ export default {
     DuanLvYuJing,
     LouDianYuJing,
     DianQiHuoZhai,
+    PaiGongDan,
+    SheBeiAnZhuangQueRen,
   },
   mounted() {
     if (window.name == "") {

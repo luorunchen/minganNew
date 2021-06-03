@@ -12,6 +12,7 @@
     "echarts-liquidfill": "^3.0.0",
     "element-ui": "^2.15.0",
     "ezuikit-js": "^0.2.3",
+    "js-md5": "^0.7.3",
     "lib-flexible": "^0.3.2",
     "moment": "^2.29.1",
     "postcss-px2rem": "^0.3.0",

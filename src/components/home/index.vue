@@ -46,7 +46,7 @@
           <span
             @click="audioON"
             style="margin-left: 30px; line-height: 30px; cursor: pointer"
-            >报警声音({{ onOFF }})</span
+            >报警声音({{ $store.state.SoundSwitch }})</span
           >
         </div>
       </div>
@@ -230,10 +230,12 @@
                   style="margin-left: 14px; color: #00e4ff"
                   @click="alarmInfoClick(item.did, item.devicenoid)"
                 >
-                  <div :data-id="(item.did, item.devicenoid)">
-                    设备:{{ item.deviceno_name }}
+                  <div :id="item.did" :imei="item.deviceid" :type="item.type">
+                    设备:{{ item.deviceid }}
                   </div>
-                  <div :data-id="item.did">地址:{{ item.address }}</div>
+                  <div :id="item.did" :imei="item.deviceid" :type="item.type">
+                    地址:{{ item.address }}
+                  </div>
                 </div>
               </div></vueSeamlessScroll
             >
@@ -287,7 +289,7 @@ import PublicPopUps from "../FireInternetOfThings/translate/publicPopUps";
 export default {
   data() {
     return {
-      pagetype: 2,
+      pagetype: 6,
       fullscreenLoading: false,
       pageSize: 1,
       AlarmInfo: "",
@@ -360,11 +362,19 @@ export default {
   },
   methods: {
     handleClick(event) {
-      console.log(event.target);
+      const devID = event.target.id;
+      const imei = event.target.attributes.imei.value;
+      const type = event.target.attributes.type.value;
+      console.log(event.target.id, 6);
+      // console.log(event.target.data, 5);
+      console.log(event.target.attributes.type.value, 4);
+      console.log(event.target.attributes.imei.value, 4);
+      // console.log(this.$refs.itemInfo.attr('data-id'));
+      this.alarmInfoClick(devID, imei, type);
     },
 
-    alarmInfoClick(devId, p_num) {
-      this.$refs.publicPopUps.see(devId, p_num);
+    alarmInfoClick(devID, imei, type) {
+      this.$refs.publicPopUps.openTypeFun(devID, imei, type);
     },
     // 声音开关
     audioON() {

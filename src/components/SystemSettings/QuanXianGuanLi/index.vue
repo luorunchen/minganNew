@@ -210,7 +210,7 @@ export default {
         { name: "设备消音", value: 10003001 },
         { name: "设备复位", value: 10003002 },
         { name: "设备断电", value: 10003003 },
-        { name: "设备远程停", value: 10003004 },
+        { name: "设备远程停电", value: 10003004 },
         { name: "设备修改", value: 10003005 },
         { name: "设备删除", value: 10003007 },
         { name: "设备新增", value: 10003006 },
@@ -234,65 +234,98 @@ export default {
   },
   methods: {
     addNewPower() {
-      this.dialogVisible = true;
-      // this.getRegonFun();
-      this.title = "新增";
+      if (
+        this.utils.powerId == 1000 ||
+        this.utils.rid.indexOf("10004004") != -1
+      ) {
+        this.dialogVisible = true;
+        // this.getRegonFun();
+        this.title = "新增";
+      } else {
+        return this.$message({
+          showClose: true,
+          message: "暂无权限，请向上级申请",
+          type: "error",
+        });
+      }
     },
     //编辑按钮
     editPowerFun(data) {
-      this.title = "编辑";
+      if (
+        this.utils.powerId == 1000 ||
+        this.utils.rid.indexOf("10004002") != -1
+      ) {
+        this.title = "编辑";
 
-      this.dialogVisible = true;
-      this.addNewUser = data.name;
-      this.edit = data;
+        this.dialogVisible = true;
+        this.addNewUser = data.name;
+        this.edit = data;
+      } else {
+        return this.$message({
+          showClose: true,
+          message: "暂无权限，请向上级申请",
+          type: "error",
+        });
+      }
     },
     //删除按钮
     delPowerFun(id, name) {
-      this.$confirm(
-        `此操作将永久删除 <span style="color:red">${name}</span> , 是否继续?`,
-        {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          dangerouslyUseHTMLString: true,
-          type: "warning",
-        }
-      )
-        .then(() => {
-          delPower(this.utils.userName, id, "only").then(
-            (res) => {
-              if (res.data.code == 200) {
-                this.$message.success("删除成功");
-                this.action(1, 15);
-              } else {
-                this.$message.error("删除失败");
+      if (
+        this.utils.powerId == 1000 ||
+        this.utils.rid.indexOf("10004003") != -1
+      ) {
+        this.$confirm(
+          `此操作将永久删除 <span style="color:red">${name}</span> , 是否继续?`,
+          {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            dangerouslyUseHTMLString: true,
+            type: "warning",
+          }
+        )
+          .then(() => {
+            delPower(this.utils.userName, id, "only").then(
+              (res) => {
+                if (res.data.code == 200) {
+                  this.$message.success("删除成功");
+                  this.action(1, 15);
+                } else {
+                  this.$message.error("删除失败");
+                }
+              },
+              () => {
+                this.$message.error("请稍后重试或联系管理员");
               }
-            },
-            () => {
-              this.$message.error("请稍后重试或联系管理员");
-            }
-          );
-          // this.$message({
-          //   type: 'success',
-          //   message: '删除成功!'
-          // });
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除",
+            );
+            // this.$message({
+            //   type: 'success',
+            //   message: '删除成功!'
+            // });
+          })
+          .catch(() => {
+            this.$message({
+              type: "info",
+              message: "已取消删除",
+            });
           });
+      } else {
+        return this.$message({
+          showClose: true,
+          message: "暂无权限，请向上级申请",
+          type: "error",
         });
+      }
     },
 
     //新增/编辑确定按钮
     addNewTrue() {
       const p_id =
         this.checkedCities +
-        "," +
+        (this.checkedCities.length <= 0 ? "" : ",") +
         this.checkedCities1 +
-        "," +
+        (this.checkedCities1.length <= 0 ? "" : ",") +
         this.checkedCities2 +
-        "," +
+        (this.checkedCities2.length <= 0 ? "" : ",") +
         this.checkedCities3;
       if (this.title == "新增") {
         givePowerRole(

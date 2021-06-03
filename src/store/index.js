@@ -7,7 +7,7 @@ export default new Vuex.Store({
   state: {
     initStatus: '',
     DeviceProjectNewData: [],
-    SoundSwitch: "关",
+    SoundSwitch: "开",
     map_lnglat: [116.397428, 39.90923],
 
   },

@@ -106,14 +106,17 @@ export default {
         if (res.data.status === true) {
           var role = res.data.role[0]; //权限
           this.utils.userName = username;
-          if (res.data.region == null) {
+          if (res.data.region == "null" || res.data.region == null) {
             res.data.region = "";
           }
+
           sessionStorage.setItem("userName", username);
           sessionStorage.setItem("role", res.data.role[0]);
           sessionStorage.setItem("new_role", res.data.new_role);
           sessionStorage.setItem("region", res.data.region);
           sessionStorage.setItem("power", res.data.power);
+          this.utils.powerId = res.data.new_role;
+          this.utils.rid = res.data.power;
           this.$router.push({ path: "/" });
           return this.$message({
             showClose: true,

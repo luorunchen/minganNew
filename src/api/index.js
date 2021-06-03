@@ -454,12 +454,12 @@ export function getAllProjecForState(username, cp, col, state, kw, ls, pname) {
   })
 }
 //编辑设备
-export function updateDeviceSim(devId, remark, my_username, installLocation) {
+export function updateDeviceSims(id, remark, my_username, installLocation, regdate, dSid, long_lat) {
   return service({
-    url: `/admin/device/check/updateDeviceSim.action`,
+    url: `/admin/device/check/updateDeviceSims.action`,
     method: 'GET',
     params: {
-      devId, remark, my_username, installLocation
+      id, remark, my_username, installLocation, regdate, dSid, long_lat
     }
   })
 }
@@ -486,7 +486,7 @@ export function deleProject(pid, username) {
 //获取消防员/责任人数据
 export function getLegalFireMan(state, object) {
   return service({
-    url: `/getLegalFireMan.action`,
+    url: `/admin/project/check/getLegalFireMan.action`,
     method: 'GET',
     params: {
       state, object
@@ -742,12 +742,12 @@ export function getDevTime(startTime, endTime, imei, week, state, content, usern
   })
 }
 //分享项目
-export function addRegisterProject(pid, username) {
+export function addRegisterProject(pid, username, ower) {
   return service({
     url: `/admin/project/addRegisterProject.action`,
     method: 'GET',
     params: {
-      pid, username
+      pid, username, ower
     }
   })
 }
@@ -836,6 +836,54 @@ export function getNFCInspectionByDevId(devId) {
     method: 'GET',
     params: {
       devId
+    }
+  })
+}
+//派工单
+export function getOrder() {
+  return service({
+    url: `WebProject/getOrder.action`,
+    method: 'GET',
+
+  })
+}
+//派工单-->设备详细
+export function getOderDevice(orderid) {
+  return service({
+    url: `/WebProject/getOderDevice.action`,
+    method: 'GET',
+    params: {
+      orderid
+    }
+  })
+}
+//派工单-->发送
+export function sendWGD(orderNo) {
+  return service({
+    url: `/MinAnMQ/sendWGD.action`,
+    method: 'GET',
+    params: {
+      orderNo
+    }
+  })
+}
+//派工单-->发送
+export function getDeviceInstall(my_username, pno, pageSize, devno, state) {
+  return service({
+    url: `/deviceHandle/getDeviceInstall.action`,
+    method: 'GET',
+    params: {
+      my_username, pno, pageSize, devno, state
+    }
+  })
+}
+//派工单-->保存
+export function updateOrderDecive(dataid, orderNo, deviceNo, dgxm, dgsjhm, ssgs, jdsj, azhzdh, fhrxm, imsi, sbsx, azzt, ycyy, bxdsfxf, aztpsjsc, status, azsj, azjwd, azwcsj, bz, tp, azqr, yyms) {
+  return service({
+    url: `WebProject/updateOrderDecive.action`,
+    method: 'GET',
+    params: {
+      dataid, orderNo, deviceNo, dgxm, dgsjhm, ssgs, jdsj, azhzdh, fhrxm, imsi, sbsx, azzt, ycyy, bxdsfxf, aztpsjsc, status, azsj, azjwd, azwcsj, bz, tp, azqr, yyms
     }
   })
 }
